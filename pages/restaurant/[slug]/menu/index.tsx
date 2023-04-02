@@ -25,7 +25,8 @@ const RestaurantMenu = () => {
                 Menu{" "}
               </Link>
             </nav>
-            {/* RESAURANT NAVBAR */} {/* MENU */}
+            {/* RESAURANT NAVBAR */} 
+            {/* MENU */}
             <main className="bg-white mt-5">
               <div>
                 <div className="mt-4 pb-1 mb-1">

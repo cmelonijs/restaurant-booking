@@ -3,10 +3,10 @@ import { RestaurantType } from "../pages";
 import Price from "./Price";
 
 interface Props {
-  restaurant: RestaurantType
+  restaurant: RestaurantType;
 }
 
-const Card = ({restaurant}: Props) => {
+const Card = ({ restaurant }: Props) => {
   return (
     <Link href={`/restaurant/${restaurant.slug}`}>
       <div className="w-64 h-72 m-3 rounded overflow-hidden border cursor-pointer">
@@ -23,7 +23,9 @@ const Card = ({restaurant}: Props) => {
           </div>
           <div className="flex text-reg font-light capitalize">
             <p className=" mr-3">{restaurant.cuisine?.name}</p>
-            <div className="mr-3"><Price price={restaurant.price} /></div>
+            <div className="mr-3">
+              <Price price={restaurant.price} />
+            </div>
             <p>{restaurant.location?.name}</p>
           </div>
           <p className="text-sm mt-1 font-bold">Booked 3 times today</p>

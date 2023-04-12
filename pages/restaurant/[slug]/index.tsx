@@ -13,13 +13,13 @@ const prisma = new PrismaClient();
 
 type Props = {
     restaurant: {
-    created_at: string | undefined;
-    updated_at: string | undefined;
-    slug?: string | undefined;
-    id?: number | undefined;
-    name?: string | undefined;
-    images?: string[] | undefined;
-    description?: string | undefined;
+    created_at: string
+    updated_at: string
+    slug: string;
+    id: number
+    name: string
+    images: string[]
+    description: string
   }
 }
 
@@ -27,14 +27,14 @@ const RestaurantDetailsPage = ({restaurant}: Props) => {
   console.log('restaurant inside component', restaurant)
   return (
     <>
-      <Header />
+      <Header title={restaurant.name} />
       <div className="flex m-auto w-2/3 justify-between items-start 0 -mt-11">
         <div className="bg-white w-[70%] rounded p-3 shadow">
-          <RestaurantNavbar />
-          <Title />
+          <RestaurantNavbar slug={restaurant?.slug} />
+          <Title name={restaurant.name} />
           <Rating />
-          <Description />
-          <Images />
+          <Description description={restaurant.description} />
+          <Images images={restaurant.images} />
           <Reviews />
         </div>
         <div className="w-[27%] relative text-reg">

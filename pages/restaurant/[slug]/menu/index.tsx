@@ -12,9 +12,9 @@ type Props = {
     name: string;
     images: string[];
     description: string;
-    items: Item[]
+    items: Item[];
   };
-}; 
+};
 
 const prisma = new PrismaClient();
 
@@ -52,13 +52,13 @@ export async function getServerSideProps(context: any) {
     ...restaurant,
     created_at: restaurant?.created_at.toISOString(),
     updated_at: restaurant?.updated_at.toISOString(),
-    items: restaurant?.items.map(item => {
-      return  {
+    items: restaurant?.items.map((item) => {
+      return {
         ...item,
         created_at: item.created_at.toISOString(),
         updated_at: item.updated_at.toISOString(),
       };
-    })
+    }),
   };
 
   return { props: { restaurant: serializedRestaurants } };

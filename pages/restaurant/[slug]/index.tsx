@@ -12,19 +12,19 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 type Props = {
-    restaurant: {
-    created_at: string
-    updated_at: string
+  restaurant: {
+    created_at: string;
+    updated_at: string;
     slug: string;
-    id: number
-    name: string
-    images: string[]
-    description: string
-  }
-}
+    id: number;
+    name: string;
+    images: string[];
+    description: string;
+  };
+};
 
-const RestaurantDetailsPage = ({restaurant}: Props) => {
-  console.log('restaurant inside component', restaurant)
+const RestaurantDetailsPage = ({ restaurant }: Props) => {
+  console.log("restaurant inside component", restaurant);
   return (
     <>
       <Header title={restaurant.name} />
@@ -50,7 +50,7 @@ export async function getServerSideProps(context: any) {
 
   const restaurant = await prisma.restaurant.findUnique({
     where: {
-      slug
+      slug,
     },
     select: {
       id: true,
@@ -60,14 +60,14 @@ export async function getServerSideProps(context: any) {
       slug: true,
       created_at: true,
       updated_at: true,
-    }
+    },
   });
 
   const serializedRestaurants = {
-      ...restaurant,
-      created_at: restaurant?.created_at.toISOString(),
-      updated_at: restaurant?.updated_at.toISOString(),
-    };
+    ...restaurant,
+    created_at: restaurant?.created_at.toISOString(),
+    updated_at: restaurant?.updated_at.toISOString(),
+  };
 
   return { props: { restaurant: serializedRestaurants } };
 }

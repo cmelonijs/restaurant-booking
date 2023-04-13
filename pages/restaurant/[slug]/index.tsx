@@ -24,7 +24,6 @@ type Props = {
 };
 
 const RestaurantDetailsPage = ({ restaurant }: Props) => {
-  console.log("restaurant inside component", restaurant);
   return (
     <>
       <Header title={restaurant.name} />

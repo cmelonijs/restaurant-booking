@@ -19,14 +19,13 @@ type Props = {
 const prisma = new PrismaClient();
 
 const RestaurantMenu = ({ restaurant }: Props) => {
-  console.log('restaurant.items', restaurant.items)
   return (
     <>
       <Header title={restaurant.name} />
       <div className="flex m-auto w-2/3 justify-between items-start 0 -mt-11">
         <div className="bg-white w-[100%] rounded p-3 shadow">
           <RestaurantNavbar slug={restaurant.slug} />
-          <Menu />
+          <Menu menu={restaurant.items} />
         </div>
       </div>
     </>

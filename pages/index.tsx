@@ -1,12 +1,13 @@
 import Header from "../components/Header";
 import Card from "../components/Card";
-import { PrismaClient, Cuisine, Location, PRICE } from "@prisma/client";
+import { PrismaClient, Cuisine, Location, PRICE, Review } from "@prisma/client";
 export interface RestaurantType {
   id: number;
   name: string;
   main_image: string;
   price: PRICE;
   location: Location;
+  reviews: Review[]
   cuisine: Cuisine;
   slug: string;
   created_at: string | Date;
@@ -40,6 +41,7 @@ export async function getServerSideProps() {
       name: true,
       main_image: true,
       price: true,
+      reviews: true,
       location: true,
       cuisine: true,
       slug: true,
@@ -61,6 +63,13 @@ export async function getServerSideProps() {
         created_at: res.cuisine.created_at.toISOString(),
         updated_at: res.cuisine.updated_at.toISOString(),
       },
+      reviews: res?.reviews.map((review) => {
+        return {
+          ...review,
+          created_at: review.created_at.toISOString(),
+          updated_at: review.updated_at.toISOString(),
+        };
+      }),
       created_at: res.created_at.toISOString(),
       updated_at: res.updated_at.toISOString(),
     };

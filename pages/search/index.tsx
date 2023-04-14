@@ -18,8 +18,8 @@ type Props = {
     location: Location;
     slug: string;
   }[];
-  locations: Location[],
-  cuisines: Cuisine[],
+  locations: Location[];
+  cuisines: Cuisine[];
 };
 
 const Search = ({ restaurants, locations, cuisines }: Props) => {
@@ -63,30 +63,30 @@ export async function getServerSideProps(context: any) {
     });
   }
 
-  const where: any = {}
+  const where: any = {};
 
-  if(location) {
+  if (location) {
     const loc = {
       name: {
-        equals: location
-      }
-    }
+        equals: location,
+      },
+    };
     where.location = loc;
   }
 
-  if(cuisine) {
+  if (cuisine) {
     const cuis = {
       name: {
-        equals: cuisine
-      }
-    }
+        equals: cuisine,
+      },
+    };
     where.cuisine = cuis;
   }
 
-  if(price) {
+  if (price) {
     const pric = {
-        equals: price
-    }
+      equals: price,
+    };
     where.price = pric;
   }
 
@@ -146,7 +146,7 @@ export async function getServerSideProps(context: any) {
       ...location,
       created_at: location.created_at.toISOString(),
       updated_at: location.updated_at.toISOString(),
-    }
+    };
   });
 
   const serializedCuisines = cuisines.map((cuisine) => {
@@ -154,10 +154,16 @@ export async function getServerSideProps(context: any) {
       ...cuisine,
       created_at: cuisine.created_at.toISOString(),
       updated_at: cuisine.updated_at.toISOString(),
-    }
+    };
   });
 
-  return { props: { restaurants: serializedRestaurants, locations: serializedLocations, cuisines: serializedCuisines } };
+  return {
+    props: {
+      restaurants: serializedRestaurants,
+      locations: serializedLocations,
+      cuisines: serializedCuisines,
+    },
+  };
 }
 
 export default Search;

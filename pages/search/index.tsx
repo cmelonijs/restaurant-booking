@@ -102,6 +102,7 @@ export async function getServerSideProps(context: any) {
       cuisine: true,
       location: true,
       slug: true,
+      reviews: true
     },
   });
 
@@ -118,6 +119,13 @@ export async function getServerSideProps(context: any) {
         created_at: res.cuisine.created_at.toISOString(),
         updated_at: res.cuisine.updated_at.toISOString(),
       },
+      reviews: res?.reviews.map((review) => {
+        return {
+          ...review,
+          created_at: review.created_at.toISOString(),
+          updated_at: review.updated_at.toISOString(),
+        };
+      }),
       created_at: res.created_at.toISOString(),
       updated_at: res.updated_at.toISOString(),
     };

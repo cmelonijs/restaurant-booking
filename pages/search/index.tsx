@@ -2,7 +2,7 @@ import Link from "next/link";
 import Header from "./components/Header";
 import SearchSidebar from "./components/SearchSidebar";
 import RestaurantCard from "./components/RestaurantCard";
-import { Location, PrismaClient } from "@prisma/client";
+import { Cuisine, Location, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -18,14 +18,16 @@ type Props = {
     location: Location;
     slug: string;
   }[];
+  locations: Location[],
+  cuisines: Cuisine[],
 };
 
-const Search = ({ restaurants }: Props) => {
+const Search = ({ restaurants, locations, cuisines }: Props) => {
   return (
     <>
       <Header />
       <div className="flex py-4 m-auto w-2/3 justify-between items-start">
-        <SearchSidebar />
+        <SearchSidebar locations={locations} cuisines={cuisines} />
         <div className="w-5/6">
           {restaurants.length ? (
             restaurants.map((res: any) => <RestaurantCard restaurant={res} />)
@@ -97,7 +99,41 @@ export async function getServerSideProps(context: any) {
     };
   });
 
-  return { props: { restaurants: serializedRestaurants } };
+  const locations = await prisma.location.findMany({
+    select: {
+      id: true,
+      name: true,
+      created_at: true,
+      updated_at: true,
+    },
+  });
+
+  const cuisines = await prisma.cuisine.findMany({
+    select: {
+      id: true,
+      name: true,
+      created_at: true,
+      updated_at: true,
+    },
+  });
+
+  const serializedLocations = locations.map((location) => {
+    return {
+      ...location,
+      created_at: location.created_at.toISOString(),
+      updated_at: location.updated_at.toISOString(),
+    }
+  });
+
+  const serializedCuisines = cuisines.map((cuisine) => {
+    return {
+      ...cuisine,
+      created_at: cuisine.created_at.toISOString(),
+      updated_at: cuisine.updated_at.toISOString(),
+    }
+  });
+
+  return { props: { restaurants: serializedRestaurants, locations: serializedLocations, cuisines: serializedCuisines } };
 }
 
 export default Search;

@@ -41,10 +41,13 @@ const Search = ({ restaurants, locations, cuisines }: Props) => {
 };
 
 export async function getServerSideProps(context: any) {
-  const location = context.query.city.toLowerCase();
+  const location = context.query?.city.toLowerCase();
+  const cuisine = context.query.cuisine?.toLowerCase();
+  const price = context.query?.price;
+
   let restaurants;
 
-  if (!location) {
+  if (!location && !cuisine && !price) {
     restaurants = await prisma.restaurant.findMany({
       select: {
         created_at: true,
@@ -60,14 +63,35 @@ export async function getServerSideProps(context: any) {
     });
   }
 
+  const where: any = {}
+
+  if(location) {
+    const loc = {
+      name: {
+        equals: location
+      }
+    }
+    where.location = loc;
+  }
+
+  if(cuisine) {
+    const cuis = {
+      name: {
+        equals: cuisine
+      }
+    }
+    where.cuisine = cuis;
+  }
+
+  if(price) {
+    const pric = {
+        equals: price
+    }
+    where.price = pric;
+  }
+
   restaurants = await prisma.restaurant.findMany({
-    where: {
-      location: {
-        name: {
-          equals: location,
-        },
-      },
-    },
+    where: where,
     select: {
       created_at: true,
       updated_at: true,

@@ -2,6 +2,7 @@ import { Cuisine, Location, PRICE, Review } from "@prisma/client";
 import Link from "next/link";
 import Price from "../../../components/Price";
 import { calculateReviewRatingAverage } from "../../../utils/calculateReviewRatingAverage";
+import Star from "../../../components/Star";
 
 type Props = {
   restaurant: {
@@ -35,7 +36,7 @@ const RestaurantCard = ({ restaurant }: Props) => {
         <div className="pl-5">
           <h2 className="text-3xl">{restaurant.name}</h2>
           <div className="flex items-start">
-            <div className="flex mb-2">*****</div>
+            <Star reviews={restaurant.reviews} />
             <p className="ml-2 text-sm">{renderRatingText()}</p>
           </div>
           <div className="mb-9">

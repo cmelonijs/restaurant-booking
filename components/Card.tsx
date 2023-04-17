@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { RestaurantType } from "../pages";
 import Price from "./Price";
+import Star from "./Star";
 
 interface Props {
   restaurant: RestaurantType;
@@ -18,7 +19,7 @@ const Card = ({ restaurant }: Props) => {
         <div className="p-1">
           <h3 className="font-bold text-2xl mb-2">{restaurant.name}</h3>
           <div className="flex items-start">
-            <div className="flex mb-2">*****</div>
+          <Star reviews={restaurant.reviews} />
             <p className="ml-2">{restaurant.reviews.length} reviews</p>
           </div>
           <div className="flex text-reg font-light capitalize">

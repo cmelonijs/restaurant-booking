@@ -25,7 +25,7 @@ const RestaurantCard = ({ restaurant }: Props) => {
     if(rating > 4) return "Eccezionale"
     else if(rating <= 4 && rating > 3) return "Buono"
     else if(rating <= 3 && rating > 2) return "Nella media"
-     return ""
+    else return ""
   }
 
   return (

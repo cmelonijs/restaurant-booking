@@ -6,15 +6,16 @@ import Image from 'next/image'
 import { calculateReviewRatingAverage } from "../utils/calculateReviewRatingAverage";
 
 type Props = {
-  reviews: Review[]
+  reviews: Review[];
+  rating?: number
 }
 
-const Star = ({reviews}: Props) => {
-    const rating = calculateReviewRatingAverage(reviews);
+const Star = ({reviews, rating}: Props) => {
+    const reviewRating = rating || calculateReviewRatingAverage(reviews);
     const renderStars = () => {
         const stars = [];
         for(let i = 0; i < 5; i++) {
-            const difference = parseFloat((rating - i).toFixed(1));
+            const difference = parseFloat((reviewRating - i).toFixed(1));
             if(difference >= 1) stars.push(fullStar)
             else if(difference < 1 && difference > 0) {
                 if(difference<= .2) stars.push(emptyStar)

@@ -7,7 +7,7 @@ import Description from "./components/Description";
 import Images from "./components/Images";
 import Reviews from "./components/Reviews";
 import ReservationCard from "./components/ReservationCard";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Review } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -19,6 +19,7 @@ type Props = {
     id: number;
     name: string;
     images: string[];
+    reviews: Review[];
     description: string;
   };
 };
@@ -31,10 +32,10 @@ const RestaurantDetailsPage = ({ restaurant }: Props) => {
         <div className="bg-white w-[70%] rounded p-3 shadow">
           <RestaurantNavbar slug={restaurant?.slug} />
           <Title name={restaurant.name} />
-          <Rating />
+          <Rating reviews={restaurant.reviews} />
           <Description description={restaurant.description} />
           <Images images={restaurant.images} />
-          <Reviews />
+          <Reviews reviews={restaurant.reviews} />
         </div>
         <div className="w-[27%] relative text-reg">
           <ReservationCard />
@@ -57,6 +58,7 @@ export async function getServerSideProps(context: any) {
       images: true,
       description: true,
       slug: true,
+      reviews: true,
       created_at: true,
       updated_at: true,
     },
@@ -64,6 +66,13 @@ export async function getServerSideProps(context: any) {
 
   const serializedRestaurants = {
     ...restaurant,
+    reviews: restaurant?.reviews.map((review) => {
+      return {
+        ...review,
+        created_at: review.created_at.toISOString(),
+        updated_at: review.updated_at.toISOString(),
+      };
+    }),
     created_at: restaurant?.created_at.toISOString(),
     updated_at: restaurant?.updated_at.toISOString(),
   };
